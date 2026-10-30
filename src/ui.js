@@ -13,25 +13,27 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export const C = {
-  bg: "#0b0b0b",
-  surface: "#141414",
-  sunk: "#1c1c1c",
-  text: "#f6f1e7",
-  muted: "#a99f8d",
-  line: "#2f2a1d",
-  ok: "#5fd08c",
-  bad: "#ff8a80",
-  warn: "#f0c96b",
+  bg: "#E9E2D2", // kertas kraft
+  surface: "#FBF8F1", // gading
+  sunk: "#F1EADB",
+  text: "#231B14", // tinta kopi
+  muted: "#6A5C4B",
+  line: "#D8CDB4",
+  ok: "#1F6B4A",
+  bad: "#A8362B",
+  warn: "#8A5E00",
 };
-export const ACCENTS = ["#e9a63b", "#e5533d", "#3fa66b", "#3b82f6", "#a855f7", "#14b8a6", "#ec4899"];
+// Judul memakai Young Serif, isi memakai Figtree (dimuat di app/_layout.js)
+export const F = { head: "YoungSerif_400Regular", body: "Figtree_500Medium", bold: "Figtree_700Bold" };
+export const ACCENTS = ["#A8362B", "#1F5E3E", "#2E4A86", "#B98512", "#6B4426", "#14746F", "#7A3E8E"];
 
-const AccentCtx = createContext("#e9a63b");
+const AccentCtx = createContext("#A8362B");
 export const AccentProvider = AccentCtx.Provider;
 export const useAccent = () => useContext(AccentCtx);
 
 // teks gelap/terang di atas warna aksen, supaya selalu terbaca
 export const onColor = (hex) => {
-  const h = String(hex || "#e9a63b").replace("#", "");
+  const h = String(hex || "#A8362B").replace("#", "");
   const n = parseInt(h.length === 3 ? h.replace(/./g, (c) => c + c) : h, 16) || 0;
   const l = 0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255);
   return l > 150 ? "#111" : "#fff";
@@ -56,17 +58,17 @@ export const Screen = ({ children, scroll = true, pad = true, style }) => {
 };
 
 export const H = ({ children, style }) => (
-  <Text style={[{ color: C.text, fontSize: 20, fontWeight: "700", marginTop: 20, marginBottom: 8 }, style]}>
+  <Text style={[{ color: C.text, fontSize: 22, fontFamily: F.head, marginTop: 20, marginBottom: 8 }, style]}>
     {children}
   </Text>
 );
 export const T = ({ children, style, ...p }) => (
-  <Text style={[{ color: C.text, fontSize: 15 }, style]} {...p}>
+  <Text style={[{ color: C.text, fontSize: 15, fontFamily: F.body }, style]} {...p}>
     {children}
   </Text>
 );
 export const Muted = ({ children, style, ...p }) => (
-  <Text style={[{ color: C.muted, fontSize: 13 }, style]} {...p}>
+  <Text style={[{ color: C.muted, fontSize: 13, fontFamily: F.body }, style]} {...p}>
     {children}
   </Text>
 );
@@ -78,7 +80,7 @@ export const Card = ({ children, style, accent }) => {
       style={[
         {
           backgroundColor: C.surface,
-          borderRadius: 14,
+          borderRadius: 8,
           borderWidth: 1,
           borderColor: accent ? a : C.line,
           padding: 14,
@@ -112,7 +114,7 @@ export function Btn({ title, onPress, variant = "solid", small, disabled, loadin
         {
           minHeight: small ? 36 : 48,
           paddingHorizontal: small ? 14 : 20,
-          borderRadius: 12,
+          borderRadius: 8,
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: bg,
@@ -127,7 +129,7 @@ export function Btn({ title, onPress, variant = "solid", small, disabled, loadin
       {loading ? (
         <ActivityIndicator color={fg} />
       ) : (
-        <Text style={{ color: fg, fontWeight: "700", fontSize: small ? 13 : 15 }}>{title}</Text>
+        <Text style={{ color: fg, fontFamily: F.bold, fontSize: small ? 13 : 15 }}>{title}</Text>
       )}
     </Pressable>
   );
@@ -135,15 +137,16 @@ export function Btn({ title, onPress, variant = "solid", small, disabled, loadin
 
 export const Field = ({ label, style, ...p }) => (
   <View style={[{ marginVertical: 6 }, style]}>
-    {label ? <Text style={{ color: C.text, fontWeight: "600", fontSize: 13, marginBottom: 4 }}>{label}</Text> : null}
+    {label ? <Text style={{ color: C.text, fontFamily: F.bold, fontSize: 13, marginBottom: 4 }}>{label}</Text> : null}
     <TextInput
-      placeholderTextColor="#777"
+      placeholderTextColor="#9A8E7A"
       autoCapitalize="none"
       style={{
         minHeight: 46,
-        borderRadius: 12,
+        borderRadius: 8,
         borderWidth: 1,
-        borderColor: "#3a3a3a",
+        borderColor: "#B9AC93",
+        fontFamily: F.body,
         backgroundColor: C.sunk,
         color: C.text,
         paddingHorizontal: 12,
@@ -174,7 +177,7 @@ export function Pills({ items, value, onChange, style }) {
               backgroundColor: on ? a : "transparent",
             }}
           >
-            <Text style={{ color: on ? onColor(a) : C.text, fontWeight: "600", fontSize: 13 }}>{label}</Text>
+            <Text style={{ color: on ? onColor(a) : C.text, fontFamily: F.bold, fontSize: 13 }}>{label}</Text>
           </Pressable>
         );
       })}
@@ -187,7 +190,7 @@ export function Chip({ text, color }) {
   const bg = color || a;
   return (
     <View style={{ backgroundColor: bg, borderRadius: 99, paddingHorizontal: 10, paddingVertical: 2 }}>
-      <Text style={{ color: onColor(bg), fontSize: 12, fontWeight: "700" }}>{text}</Text>
+      <Text style={{ color: onColor(bg), fontSize: 12, fontFamily: F.bold }}>{text}</Text>
     </View>
   );
 }
@@ -213,7 +216,7 @@ export const Toggle = ({ label, value, onValueChange, hint }) => {
     <View style={{ marginVertical: 8 }}>
       <Row>
         <Text style={{ color: C.text, fontWeight: "600", flex: 1 }}>{label}</Text>
-        <Switch value={value} onValueChange={onValueChange} trackColor={{ true: a, false: "#444" }} />
+        <Switch value={value} onValueChange={onValueChange} trackColor={{ true: a, false: "#C9BFA8" }} />
       </Row>
       {hint ? <Muted>{hint}</Muted> : null}
     </View>
@@ -223,20 +226,20 @@ export const Toggle = ({ label, value, onValueChange, hint }) => {
 export function Sheet({ visible, onClose, title, children }) {
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
-      <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,.6)", justifyContent: "flex-end" }}>
+      <View style={{ flex: 1, backgroundColor: "rgba(35,27,20,.5)", justifyContent: "flex-end" }}>
         <SafeAreaView
           edges={["bottom"]}
           style={{
             backgroundColor: C.bg,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
             maxHeight: "92%",
             borderWidth: 1,
             borderColor: C.line,
           }}
         >
           <Row style={{ padding: 16, paddingBottom: 0 }}>
-            <Text style={{ color: C.text, fontSize: 18, fontWeight: "700", flex: 1 }}>{title}</Text>
+            <Text style={{ color: C.text, fontSize: 20, fontFamily: F.head, flex: 1 }}>{title}</Text>
             <Btn title="Tutup" variant="ghost" small onPress={onClose} />
           </Row>
           <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 32 }} keyboardShouldPersistTaps="handled">

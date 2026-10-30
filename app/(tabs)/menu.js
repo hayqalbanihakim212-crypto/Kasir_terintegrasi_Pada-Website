@@ -81,6 +81,7 @@ export default function MenuTab() {
     setForm({
       id: m.id,
       n: m.n,
+      ds: m.d || "",
       c: m.c,
       t: m.v ? (g("Float") ? "hdf" : "hd") : "one",
       p: String(m.v ? "" : m.p),
@@ -143,6 +144,7 @@ export default function MenuTab() {
       }
       const row = {
         name: n,
+        descr: (f.ds || "").trim().slice(0, 80) || null,
         category_id: cat.id,
         price,
         variants,
@@ -493,6 +495,13 @@ export default function MenuTab() {
               onChangeText={(v) => setForm({ ...form, n: v })}
               maxLength={60}
               autoCapitalize="words"
+            />
+            <Field
+              label="Keterangan singkat (opsional)"
+              value={form.ds || ""}
+              onChangeText={(v) => setForm({ ...form, ds: v })}
+              maxLength={80}
+              placeholder="Contoh: Espresso, susu, gula aren"
             />
             <Field
               label="Kategori"

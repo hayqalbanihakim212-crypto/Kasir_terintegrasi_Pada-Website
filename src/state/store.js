@@ -155,7 +155,7 @@ export function useMenu() {
     return items
       .map((m) => {
         const c = cat.get(m.category_id);
-        return c ? { id: m.id, n: m.name, p: m.price, v: m.variants, off: m.off, c: c.name, closed: c.closed, cid: c.id } : null;
+        return c ? { id: m.id, n: m.name, p: m.price, v: m.variants, off: m.off, d: m.descr || "", c: c.name, closed: c.closed, cid: c.id } : null;
       })
       .filter(Boolean);
   }, [items, categories]);

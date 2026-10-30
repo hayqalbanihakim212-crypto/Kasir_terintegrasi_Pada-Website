@@ -2,7 +2,7 @@ import React from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../src/state/store";
-import { C, useAccent } from "../../src/ui";
+import { C, F, useAccent } from "../../src/ui";
 
 const icon = (name) => ({ color, size }) => <Ionicons name={name} size={size} color={color} />;
 
@@ -15,6 +15,8 @@ export default function TabsLayout() {
       screenOptions={{
         headerStyle: { backgroundColor: C.bg },
         headerTintColor: C.text,
+        headerTitleStyle: { fontFamily: F.head, fontWeight: "400" },
+        tabBarLabelStyle: { fontFamily: F.bold },
         tabBarStyle: { backgroundColor: C.bg, borderTopColor: C.line },
         tabBarActiveTintColor: a,
         tabBarInactiveTintColor: C.muted,
@@ -23,7 +25,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Antrian",
+          title: "Antrean",
           tabBarIcon: icon("receipt-outline"),
           tabBarBadge: waiting || undefined,
           tabBarBadgeStyle: { backgroundColor: a },

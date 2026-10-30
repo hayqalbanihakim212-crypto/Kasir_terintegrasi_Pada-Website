@@ -3,13 +3,16 @@ import { ActivityIndicator, View } from "react-native";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { AppProvider, useApp } from "../src/state/store";
-import { AccentProvider, C } from "../src/ui";
+import { useFonts, Figtree_500Medium, Figtree_700Bold } from "@expo-google-fonts/figtree";
+import { YoungSerif_400Regular } from "@expo-google-fonts/young-serif";
+import { AccentProvider, C, F } from "../src/ui";
 import "../src/lib/confirm";
 
 function Gate() {
   const { session, ready, shop, memberships } = useApp();
   const segments = useSegments();
   const router = useRouter();
+  const [fontsOk] = useFonts({ Figtree_500Medium, Figtree_700Bold, YoungSerif_400Regular });
 
   useEffect(() => {
     if (!ready) return;
@@ -24,13 +27,13 @@ function Gate() {
   }, [ready, session, memberships.length, segments]);
 
   return (
-    <AccentProvider value={(shop && shop.accent) || "#e9a63b"}>
-      <StatusBar style="light" />
+    <AccentProvider value={(shop && shop.accent) || "#A8362B"}>
+      <StatusBar style="dark" />
       <Stack
         screenOptions={{
           headerStyle: { backgroundColor: C.bg },
           headerTintColor: C.text,
-          headerTitleStyle: { fontWeight: "700" },
+          headerTitleStyle: { fontFamily: F.head, fontWeight: "400" },
           contentStyle: { backgroundColor: C.bg },
         }}
       >
@@ -48,7 +51,7 @@ function Gate() {
         <Stack.Screen name="website" options={{ title: "Website" }} />
         <Stack.Screen name="riwayat" options={{ title: "Riwayat pesanan" }} />
       </Stack>
-      {!ready && (
+      {(!ready || !fontsOk) && (
         <View
           style={{
             position: "absolute",
@@ -58,7 +61,7 @@ function Gate() {
             justifyContent: "center",
           }}
         >
-          <ActivityIndicator color="#e9a63b" size="large" />
+          <ActivityIndicator color="#A8362B" size="large" />
         </View>
       )}
     </AccentProvider>

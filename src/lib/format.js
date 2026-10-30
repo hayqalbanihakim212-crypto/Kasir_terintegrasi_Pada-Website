@@ -44,7 +44,7 @@ export const STATUS = {
   failed: "Gagal",
 };
 export const PAID = ["paid", "making", "ready", "done"];
-export const PAY = { cash: "Tunai", qris: "QRIS", transfer: "Transfer", online: "Online", counter: "Di kasir" };
+export const PAY = { cash: "Tunai", qris: "QRIS", transfer: "Transfer", debit: "Kartu debit", online: "Online", counter: "Di kasir" };
 
 // URL di dalam QR meja: alamat website toko + ?meja=KODE
 export const tableUrl = (base, code) => {

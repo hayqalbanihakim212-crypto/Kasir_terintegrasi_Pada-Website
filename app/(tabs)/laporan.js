@@ -33,7 +33,7 @@ function Rank({ rows, fmt }) {
         <Text style={{ color: C.text, flex: 1 }}>{r[0]}</Text>
         <Text style={{ color: C.text, fontWeight: "700" }}>{fmt(r[1])}</Text>
       </Row>
-      <View style={{ height: 4, backgroundColor: "#2a2a2a", borderRadius: 2, marginTop: 3 }}>
+      <View style={{ height: 4, backgroundColor: "#E3DAC6", borderRadius: 2, marginTop: 3 }}>
         <View style={{ height: 4, width: `${(r[1] / mx) * 100}%`, backgroundColor: a, borderRadius: 2 }} />
       </View>
     </View>

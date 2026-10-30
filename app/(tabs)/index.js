@@ -1,6 +1,6 @@
 // Antrian dapur: pesanan dari kasir dan dari website masuk di sini secara realtime.
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, RefreshControl, ScrollView, Text, View } from "react-native";
+import { Alert, RefreshControl, ScrollView, Text, View, useWindowDimensions } from "react-native";
 import * as Haptics from "expo-haptics";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useApp } from "../../src/state/store";
@@ -23,6 +23,8 @@ export default function Antrian() {
   const [refreshing, setRefreshing] = useState(false);
   const [now, setNow] = useState(Date.now());
   const seen = useRef(null);
+  const { width } = useWindowDimensions();
+  const cols = width >= 1100 ? 3 : width >= 700 ? 2 : 1;
 
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 30000);
@@ -93,7 +95,7 @@ export default function Antrian() {
             </Text>
           </Card>
         </Row>
-        <H>Antrian dapur</H>
+        <H>Antrean pesanan</H>
         <Pills
           value={f}
           onChange={setF}
@@ -107,12 +109,13 @@ export default function Antrian() {
         />
         {!loaded && <Muted>Memuat...</Muted>}
         {loaded && !show.length && <Muted>Tidak ada pesanan di antrian ini.</Muted>}
+        <View style={{ flexDirection: "row", flexWrap: "wrap", columnGap: 12 }}>
         {show.map((o) => {
           const mins = Math.max(0, Math.floor((now - ts(o)) / 60000));
           const late = o.status === "paid" && mins >= 10;
           const [next, label] = NEXT[o.status];
           return (
-            <Card key={o.id} style={late ? { borderColor: C.bad } : null}>
+            <Card key={o.id} style={[{ width: cols === 1 ? "100%" : `${100 / cols - 2}%` }, late ? { borderColor: C.bad } : null]}>
               <Row>
                 <Text style={{ color: C.text, fontSize: 22, fontWeight: "800" }}>{tl(o.table_label)}</Text>
                 <View style={{ flexDirection: "row", gap: 6 }}>
@@ -155,6 +158,7 @@ export default function Antrian() {
             </Card>
           );
         })}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

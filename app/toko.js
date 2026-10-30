@@ -44,6 +44,7 @@ function TokoForm() {
     accent: shop.accent,
     online_ordering: shop.online_ordering,
     web_pay: shop.web_pay,
+    qris_payload: shop.qris_payload || "",
   });
   const [msg, setMsg] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -54,6 +55,9 @@ function TokoForm() {
     if (url && !/^https?:\/\//i.test(url)) url = "https://" + url;
     if (f.name.trim().length < 2)
       return setMsg({ bad: 1, t: "Nama toko minimal 2 huruf." });
+    const qp = f.qris_payload.trim();
+    if (qp && !/^000201/.test(qp))
+      return setMsg({ bad: 1, t: "Kode QRIS harus berawalan 000201. Salin teks hasil scan QRIS toko." });
     setBusy(true);
     const { error } = await supabase
       .from("shops")
@@ -66,6 +70,7 @@ function TokoForm() {
         accent: f.accent,
         online_ordering: f.online_ordering,
         web_pay: f.web_pay,
+        qris_payload: qp || null,
       })
       .eq("id", shop.id);
     setBusy(false);
@@ -119,6 +124,18 @@ function TokoForm() {
           />
         ))}
       </View>
+      <H>QRIS toko</H>
+      <Field
+        label="Teks kode QRIS (opsional)"
+        value={f.qris_payload}
+        onChangeText={set("qris_payload")}
+        multiline
+        placeholder="000201010211..."
+      />
+      <Muted>
+        Scan QRIS toko dengan aplikasi pembaca QR, lalu tempel teks hasilnya di sini. Di kasir, nominal otomatis
+        dimasukkan ke kode sehingga pelanggan tidak perlu mengetik. Pembayaran tetap dikonfirmasi kasir.
+      </Muted>
       <H>Website resmi</H>
       <Field
         label="Alamat website toko"
