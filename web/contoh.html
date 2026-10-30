@@ -3,19 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Contoh halaman pesan</title>
+    <title>Halaman uji widget</title>
     <style>
-      body { margin: 0; padding: 16px; background: #1a1a1a; }
+      body {
+        margin: 0;
+        padding: 16px;
+        background: #1a1a1a;
+        color: #eee;
+        font-family: system-ui;
+      }
     </style>
   </head>
   <body>
-    <!-- Ganti tiga nilai ini dengan milik tokomu (lihat menu Website di aplikasi). -->
-    <div
-      id="kasir-menu"
-      data-url="https://XXXX.supabase.co"
-      data-key="ANON_KEY_KAMU"
-      data-shop="slug-toko"
-    ></div>
-    <script src="./kasir-embed.js"></script>
+    <!-- Pemakaian: contoh.html?url=https://XXX.supabase.co&key=ANON_KEY&shop=slug-toko&meja=KODE -->
+    <div id="kasir-menu"></div>
+    <script>
+      var q = new URLSearchParams(location.search);
+      var el = document.getElementById("kasir-menu");
+      if (q.get("url") && q.get("key") && q.get("shop")) {
+        el.dataset.url = q.get("url");
+        el.dataset.key = q.get("key");
+        el.dataset.shop = q.get("shop");
+        var s = document.createElement("script");
+        s.src = "./kasir-embed.js";
+        document.body.appendChild(s);
+      } else {
+        el.textContent =
+          "Isi parameter ?url=...&key=...&shop=... di alamat halaman ini.";
+      }
+    </script>
   </body>
 </html>

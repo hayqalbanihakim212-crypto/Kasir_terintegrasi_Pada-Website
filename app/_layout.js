@@ -4,6 +4,7 @@ import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { AppProvider, useApp } from "../src/state/store";
 import { AccentProvider, C } from "../src/ui";
+import "../src/lib/confirm";
 
 function Gate() {
   const { session, ready, shop, memberships } = useApp();
@@ -39,7 +40,10 @@ function Gate() {
         <Stack.Screen name="toko" options={{ title: "Profil toko" }} />
         <Stack.Screen name="meja" options={{ title: "Meja & QR" }} />
         <Stack.Screen name="staf" options={{ title: "Staf" }} />
-        <Stack.Screen name="pembayaran" options={{ title: "Pembayaran online" }} />
+        <Stack.Screen
+          name="pembayaran"
+          options={{ title: "Pembayaran online" }}
+        />
         <Stack.Screen name="printer" options={{ title: "Printer struk" }} />
         <Stack.Screen name="website" options={{ title: "Website" }} />
         <Stack.Screen name="riwayat" options={{ title: "Riwayat pesanan" }} />

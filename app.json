@@ -37,7 +37,9 @@
         "android.permission.VIBRATE"
       ]
     },
-    "web": { "favicon": "./assets/favicon.png" },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
     "plugins": [
       "expo-router",
       "expo-secure-store",
@@ -45,10 +47,14 @@
         "react-native-ble-plx",
         {
           "isBackgroundEnabled": false,
-          "modes": ["central"],
+          "modes": [
+            "central"
+          ],
           "bluetoothAlwaysPermission": "Bluetooth dipakai untuk mencetak struk ke printer thermal."
         }
-      ]
+      ],
+      "expo-sharing",
+      "expo-splash-screen"
     ]
   }
 }
